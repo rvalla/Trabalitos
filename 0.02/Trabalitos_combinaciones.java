@@ -22,6 +22,7 @@ class Trabalitos_combinaciones {
 								new BigInteger("3"), new BigInteger("2"),
 								new BigInteger("3"), new BigInteger("4")};
 	
+	static int cardinal_tipos = tipos.length;
 	
 	public static void main(String[] args) throws Exception{
 		
@@ -152,7 +153,7 @@ class Trabalitos_combinaciones {
 	//Método para reducir el conjunto total cuando es posible...
 	static int limitador (int n, int i){
 		
-		int limite = 6 * i;
+		int limite = cardinal_tipos * i;
 		
 		if (limite > n){
 			limite = n;
@@ -179,22 +180,16 @@ class Trabalitos_combinaciones {
 	}
 	
 	//Método para armar los subconjuntos posibles del conjunto considerado...
-	static int[][] matrizSubconjuntos (int c, int n){
+	static int[][] matrizSubconjuntos (int n, int c){
 	
-		int[][] mS = new int[combinatorioInt(c, n)][n];
+		int[][] mS = new int[combinatorioInt(n, c)][c];
 		
 		for (int j = 0; j < mS[0].length; j++){
 			mS[0][j] = j + 1;
 		}
 		
-		for (int i = 1; i < mS.length; i++){
-			for (int j = 0; j < mS[i].length; j++){
-				mS[i][j] = 0;
-			}
-		}
-		
 		caso = 0;
-		getCombinaciones(c, n, 0, mS[0], mS);
+		getCombinaciones(n, c, 0, mS[0], mS);
 		
 		for(int i = 0; i < mS.length; i++){
 			for (int j = 0; j < mS[i].length; j++){
@@ -210,9 +205,9 @@ class Trabalitos_combinaciones {
 	
 	//Método recursivo para hallar combinaciones... Llena los lugares que cambian de la matriz mS
 	static int caso = 0;
-	static void getCombinaciones(int c, int n, int p, int[] aux, int[][] mS){
+	static void getCombinaciones(int n, int c, int p, int[] aux, int[][] mS){
        
-    	if (n == 0){
+    	if (c == 0){
     		
     		if(caso < mS.length && caso > 0){
         		aux = mS[caso-1];
@@ -222,11 +217,11 @@ class Trabalitos_combinaciones {
             
         }
        
-        for (int i = p; i <= c - n; i++){
+        for (int i = p; i <= n - c; i++){
     	
         	aux=mS[caso];
-	        aux[aux.length - n] = i%6 + 1;
-            getCombinaciones(c, n-1, i+1, aux, mS);
+	        aux[aux.length - c] = i%cardinal_tipos + 1;
+            getCombinaciones(n, c-1, i+1, aux, mS);
         	
         }  
     
@@ -235,12 +230,12 @@ class Trabalitos_combinaciones {
 	//Método para saber qué cantidad de cada tipo de piezas existe en cada cadena...
 	static int[][] matrizTipos(int mS[][]){
 	
-		int[][] tipos = new int[mS.length][6];
+		int[][] tipos = new int[mS.length][cardinal_tipos];
 		
 		for (int i = 0; i < mS.length; i++){
 			for (int j = 0; j <  mS[i].length; j++){
 				if (mS[i][j] > 0){
-					tipos[i][(mS[i][j]-1)%6] = tipos[i][(mS[i][j]-1)%6] + 1;					
+					tipos[i][(mS[i][j]-1)%cardinal_tipos] = tipos[i][(mS[i][j]-1)%cardinal_tipos] + 1;					
 				}
 			} 
 		}
