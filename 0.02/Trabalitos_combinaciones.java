@@ -209,9 +209,6 @@ class Trabalitos_combinaciones {
        
     	if (c == 0){
     		
-    		if(caso < mS.length && caso > 0){
-        		aux = mS[caso-1];
-        	}
        		caso = caso + 1;
             return;
             
@@ -219,8 +216,7 @@ class Trabalitos_combinaciones {
        
         for (int i = p; i <= n - c; i++){
     	
-        	aux=mS[caso];
-	        aux[aux.length - c] = i%cardinal_tipos + 1;
+	        mS[caso][mS[caso].length - c] = i%cardinal_tipos + 1;
             getCombinaciones(n, c-1, i+1, aux, mS);
         	
         }  
